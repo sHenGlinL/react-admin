@@ -1,0 +1,3 @@
+/// <reference types="vite/client" />
+/** 类型声明文件里不要直接使用引入 import...from...
+而是使用 import('') 这种语法 **/
