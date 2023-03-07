@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
+import UserStore from "@/store/UserStore"
 import { RootState } from "@/store"
 
 function View() {
@@ -17,6 +18,9 @@ function View() {
   const changeArr = () => {
     dispatch({ type: 'arrPush', value: 40 })
   }
+  const handleAsync = () => {
+    dispatch(UserStore.asyncActions.asyncArrPush)
+  }
 
   return (
     <div>
@@ -27,6 +31,7 @@ function View() {
         <button onClick={changeNum2}>+10</button>
         <span>redux中的数据arr: {arr}</span>
         <button onClick={changeArr}>arr添加</button>
+        <button onClick={handleAsync}>异步按钮</button>
       </div>
     </div>
   )

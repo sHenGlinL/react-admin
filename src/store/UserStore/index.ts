@@ -6,6 +6,13 @@ const UserStore = {
     arrPush(state, value) {
       state.arr.push(value)
     }
+  },
+  asyncActions: {
+    asyncArrPush(dispatch:Function) {
+      setTimeout(() => {
+        dispatch({ type: 'arrPush', value: '异步添加' })
+      }, 1000);
+    }
   }
 }
 

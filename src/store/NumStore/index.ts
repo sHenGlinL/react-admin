@@ -1,3 +1,5 @@
+// @todo typescript完善
+
 const NumStore = {
   state: {
     num: 20
