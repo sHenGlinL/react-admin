@@ -22,9 +22,10 @@
 // export default baseRouter;
 
 /** 2. hooks的写法 **/
-import { Suspense, lazy } from 'react'
-import { useRoutes, Navigate } from "react-router-dom";
+import { Suspense, lazy, useEffect } from 'react'
+import { useRoutes, Navigate, useLocation, useNavigate } from "react-router-dom";
 import type { RouteObject } from 'react-router-dom'
+import { getToken } from '@/utils/auth';
 
 const Layout = lazy(() => import("@/layout"))
 const Login = lazy(() => import("@/views/Login"))
@@ -77,4 +78,35 @@ const routes:RouteObject[] = [
   }
 ]
 
-export const RoutesElement = () => useRoutes(routes)
+// 全局路由组件
+const RoutesElement = () => useRoutes(routes)
+
+// 路由跳转组件
+const Redirect = ({ to }: { to: string }) => {
+  const navigate = useNavigate()
+  useEffect(() => {
+    navigate(to)
+  }, [])
+  return null
+}
+
+// 路由前置守卫
+const whiteList = ['/login']
+export const RouterBeforeEach = () => {
+  const { pathname } = useLocation()
+  const token = getToken()
+
+  if (!token && !whiteList.includes(pathname)) {
+    return <Redirect to='/login' />
+  }
+  if (token) {
+    // 获取用户信息等操作
+
+    if (pathname === '/login') {
+      return <Redirect to='/home' />
+    }
+  }
+
+  return <RoutesElement />
+}
+

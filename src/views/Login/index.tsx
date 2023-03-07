@@ -3,6 +3,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.scss";
 import background from "./background";
+import { setToken } from "@/utils/auth";
 
 type UserInfo = {
   userName: string
@@ -13,6 +14,7 @@ const Login = () => {
   const navigateTo = useNavigate()
   const handleSubmit = (values: UserInfo) => {
     if (checkUser(values)) {
+      setToken('666')
       navigateTo('/')
     }
   };
