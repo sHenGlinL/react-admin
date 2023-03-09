@@ -78,5 +78,21 @@ const Counter = () => {
 - 用于组件跨级通信
 
 ### useReducer🌟
+```
+const initState = {}
+const reducer = (oldState, action) => {
+  const newState = { ...oldState }
+
+  switch(action.type) {
+    case ''
+      ...
+      return newState
+      break
+     default:
+      return oldState
+  }
+}
+const [state, dispatch] = useReducer(reducer, initState)
+```
 - 先有的redux，react-hooks引用了redux的理念，创建了useReducer。
 - 可以在单个组件内使用redux的状态管理模式，使用高内聚的方式代替多个useState。

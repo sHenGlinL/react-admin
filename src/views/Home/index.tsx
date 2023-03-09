@@ -1,22 +1,21 @@
-import { useDispatch, useSelector } from "react-redux"
 import UserStore from "@/store/UserStore"
-import { RootState } from "@/store"
+import { useAppDispatch, useAppSelector } from "@/store"
 
 function View() {
   // 获取redux数据
-  const { num } = useSelector((state:RootState) => state.NumReducer)
+  const { num } = useAppSelector(state => state.NumReducer)
   // 修改redux数据
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const changeNum = () => {
     dispatch({ type: 'add1' })
   }
   const changeNum2 = () => {
-    dispatch({ type: 'add2', value: 10 })
+    dispatch({ type: 'add2', payload: 10 })
   }
 
-  const { arr } = useSelector((state:RootState) => state.UserReducer)
+  const { arr } = useAppSelector(state => state.UserReducer)
   const changeArr = () => {
-    dispatch({ type: 'arrPush', value: 40 })
+    dispatch({ type: 'arrPush', payload: 40 })
   }
   const handleAsync = () => {
     dispatch(UserStore.asyncActions.asyncArrPush)
