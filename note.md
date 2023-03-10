@@ -96,3 +96,35 @@ const [state, dispatch] = useReducer(reducer, initState)
 ```
 - 先有的redux，react-hooks引用了redux的理念，创建了useReducer。
 - 可以在单个组件内使用redux的状态管理模式，使用高内聚的方式代替多个useState。
+
+## redux生态
+### redux-thunk
+```
+dispatch((dis) => {
+  // 异步操作
+  dis({ type: 'arrPush', payload: '异步添加' })
+})
+```
+- 解决dispatch异步问题
+- 向dispatch传入一个方法
+
+### redux-promise
+```
+dispatch(new Promise(resolve => {
+  resolve({ type: 'arrPush', payload: '异步添加' })
+}))
+
+or
+
+dispatch(async () => {
+  await ...
+  return { type: 'arrPush', payload: '异步添加' }
+})
+```
+- 解决dispatch异步问题
+- 向dispatch传入一个promise
+
+### redux-saga
+- 解决dispatch异步问题
+- 区别于redux-thunk和redux-promise，redux-saga不会改变dispatch的调用参数，非侵入式的解决方案。
+- 使用了Generator

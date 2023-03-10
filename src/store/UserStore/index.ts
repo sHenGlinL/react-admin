@@ -3,14 +3,14 @@ const UserStore = {
     arr: [10, 20, 30]
   },
   actions: {
-    arrPush(state, value) {
-      state.arr.push(value)
+    arrPush(state, payload:any) {
+      state.arr.push(payload)
     }
   },
   asyncActions: {
     asyncArrPush(dispatch:Function) {
       setTimeout(() => {
-        dispatch({ type: 'arrPush', value: '异步添加' })
+        dispatch({ type: 'arrPush', payload: '异步添加' })
       }, 1000);
     }
   }

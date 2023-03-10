@@ -8,8 +8,8 @@ const NumStore = {
     add1(state) {
       state.num ++
     },
-    add2(state, value) {
-      state.num += value
+    add2(state, payload:any) {
+      state.num += payload
     }
   }
 }
