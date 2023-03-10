@@ -1,5 +1,49 @@
 # 学习笔记
 
+## API
+- 加🌟的表示为用作性能优化的API
+### forwardRef
+```
+const Paranet = () => {
+  const inputRef = useRef()
+
+  return (
+    <div>
+      <Child ref={inputRef}/>
+    </div>
+  )
+}
+
+const Child = forwardRef((props, ref) => {
+  return <div>
+    <input ref={ref}/>
+  </div>
+})
+```
+- 透传/转发ref，可以直接拿到子组件内部的ref
+
+### portal
+```
+const Comp = () => {
+  return createPortal(dom, document.body)
+}
+```
+- 传送门，相当于vue的teleport
+- params1: 需要传送的dom
+- params2: 传送到哪个目标dom下
+
+### memo🌟
+```
+const child = memo(() => {
+  return <div>
+    <input />
+  </div>
+})
+```
+- react组件更新会自上而下进行更新
+- memo可以控制组件仅在它的props发生改变时进行重新渲染
+- 与PureComponent区别：PureComponent只能用于class组件，memo用于functional组件
+
 ## hooks的使用说明
 - 加🌟的表示为用作性能优化/代码优化的hooks
 
@@ -97,7 +141,14 @@ const [state, dispatch] = useReducer(reducer, initState)
 - 先有的redux，react-hooks引用了redux的理念，创建了useReducer。
 - 可以在单个组件内使用redux的状态管理模式，使用高内聚的方式代替多个useState。
 
+### useImperativeHandle
+- 将方法暴漏给父组件使用
+
 ## redux生态
+### redux
+- dispatch的时候，会把所有的订阅者都执行一遍。
+- dispatch的时候，会把所有的reducer都执行一遍。
+- dispatch会把所有的reducer执行一遍，reducer会返回新的state，useSelector获取新的state。这一系列都是同步操作。因此action不能为异步操作，否则返回的state还是旧的state。
 ### redux-thunk
 ```
 dispatch((dis) => {
