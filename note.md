@@ -4,7 +4,7 @@
 - 加🌟的表示为用作性能优化的API
 ### forwardRef
 ```
-const Paranet = () => {
+const Parent = () => {
   const inputRef = useRef()
 
   return (
@@ -44,7 +44,7 @@ const child = memo(() => {
 - memo可以控制组件仅在它的props发生改变时进行重新渲染
 - 与PureComponent区别：PureComponent只能用于class组件，memo用于functional组件
 
-## hooks的使用说明
+## hooks
 - 加🌟的表示为用作性能优化/代码优化的hooks
 
 ### useState
@@ -104,6 +104,7 @@ useRef(0) // 用作保存状态
 ```
 - 与vue的ref一样
 - 放在组件上就是获取组件实例，放在dom上就是获取dom节点。
+- 放在functional组件上，需要配合forwardRef和useImperativeHandle使用。
 - 在不使用useState的情况下，还可以用作保存状态，原理是闭包。 
 
 ### useContext
@@ -142,9 +143,23 @@ const [state, dispatch] = useReducer(reducer, initState)
 - 可以在单个组件内使用redux的状态管理模式，使用高内聚的方式代替多个useState。
 
 ### useImperativeHandle
-- 将方法暴漏给父组件使用
+```
+const Child = forwardRef((props, ref) => {
+  const myFun = () => {}
 
-## redux生态
+  useImperativeHandle(ref, () => ({
+    myFun
+  }))
+
+  return <div></div>
+})
+```
+- 将方法暴漏给父组件使用
+- params1：需要暴露属性的ref
+- params2：方法，返回一个暴露的对象
+- params3：函数的依赖值，与useEffect一样
+
+## redux
 ### redux
 - dispatch的时候，会把所有的订阅者都执行一遍。
 - dispatch的时候，会把所有的reducer都执行一遍。

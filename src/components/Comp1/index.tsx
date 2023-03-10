@@ -1,15 +1,32 @@
-import styles from './comp1.module.scss'
-import { Button } from 'antd'
-import { StepBackwardOutlined } from '@ant-design/icons'
+import styles from "./comp1.module.scss";
+import { Button } from "antd";
+import { StepBackwardOutlined } from "@ant-design/icons";
+import {
+  forwardRef,
+  useImperativeHandle,
+  ForwardRefRenderFunction,
+} from "react";
 
-function Comp1() {
-  return (
-    <div className={styles['text-color']}>
-      组件1
-      <Button type="primary">Primary Button</Button>
-      <StepBackwardOutlined style={{fontSize: '28px'}}/>
-    </div>
-  )
+export interface ChildRefType {
+  childFun: () => void;
 }
 
-export default Comp1
+const Comp1: ForwardRefRenderFunction<ChildRefType> = (props, ref) => {
+  const childFun = () => {
+    console.log("我是子组件的方法");
+  };
+
+  useImperativeHandle(ref, () => ({
+    childFun,
+  }));
+
+  return (
+    <div className={styles["text-color"]}>
+      Comp1
+      <Button type="primary">Primary Button</Button>
+      <StepBackwardOutlined style={{ fontSize: "28px" }} />
+    </div>
+  );
+};
+
+export default forwardRef(Comp1);
