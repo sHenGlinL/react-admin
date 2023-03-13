@@ -29,6 +29,7 @@ import { getToken } from '@/utils/auth';
 
 const Layout = lazy(() => import("@/layout"))
 const Login = lazy(() => import("@/views/Login"))
+const NotFound = lazy(() => import("@/views/NotFound"))
 const Home = lazy(() => import("@/views/Home"))
 const About = lazy(() => import("@/views/About"))
 const Page3_1 = lazy(() => import("@/views/Page3/Page3-1"))
@@ -73,8 +74,12 @@ const routes:RouteObject[] = [
     ]
   },
   {
+    path: '/404',
+    element: withLoadingComponent(<NotFound />)
+  },
+  {
     path: '*',
-    element: <Navigate to="/login"/> // 回到首页或者404
+    element: <Navigate to="/404"/> // 回到首页或者404
   }
 ]
 
