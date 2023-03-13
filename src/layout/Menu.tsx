@@ -27,12 +27,12 @@ const items: MenuItem[] = [
     key: 'page3',
     children: [
       {
-        label: '菜单1',
+        label: '菜单3-1',
         icon: <DesktopOutlined />,
         key: '/page3/page3-1'
       },
       {
-        label: '菜单2',
+        label: '菜单3-2',
         icon: <FileOutlined />,
         key: '/page3/2'
       }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Breadcrumb, Layout, theme } from 'antd';
+import { Layout, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
 import MenuView from './Menu';
+import Breadcrumb from './Breadcrumb';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -20,15 +21,12 @@ const LayoutView: React.FC = () => {
 
       <Layout className="site-layout">
         <Header style={{ paddingLeft: '24px', background: colorBgContainer }} >
-          <Breadcrumb style={{ lineHeight: '64px' }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumb />
         </Header>
         <Content style={{ margin: '16px 16px 0', padding: '24px', background: colorBgContainer }}>
           <Outlet />
         </Content>
-        <Footer style={{ textAlign: 'center', padding: 0, lineHeight: '48px' }}>Ant Design ©2023 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: 'center', padding: 0, lineHeight: '48px' }}>react18 + antd + three.js 后台管理系统模版</Footer>
       </Layout>
     </Layout>
   );
