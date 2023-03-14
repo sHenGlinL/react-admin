@@ -72,7 +72,7 @@ export const initThreeBackground = (threeRef:RefObject<HTMLDivElement>) => {
 
   // 模型加载器
   const dracoLoader = new DRACOLoader(); // 解压
-  dracoLoader.setDecoderPath("/draco/"); // 设置解压库路径
+  dracoLoader.setDecoderPath("./draco/"); // 设置解压库路径
   const gltfLoader = new GLTFLoader(); // 模型载入
   gltfLoader.setDRACOLoader(dracoLoader);
 
