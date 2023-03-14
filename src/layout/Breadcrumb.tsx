@@ -13,7 +13,7 @@ const BreadcrumbView = () => {
   });
 
   return (
-    <Breadcrumb >
+    <Breadcrumb style={{ height: '64px', display: 'flex', alignItems: 'center' }}>
       {
         extraBreadcrumbItems.map(item => (
           <Breadcrumb.Item key={item.key}>{ item.title }</Breadcrumb.Item>

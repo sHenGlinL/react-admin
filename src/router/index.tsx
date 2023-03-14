@@ -45,7 +45,6 @@ const routes:RouteObject[] = [
     path: '/login',
     element: <Login />
   },
-  // @todo 有没重定向更优的方法
   {
     path: '/',
     element: <Navigate to="/home"/>

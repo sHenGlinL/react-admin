@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Layout, theme } from 'antd';
+import { Layout, theme, Button } from 'antd';
 import { Outlet } from 'react-router-dom';
 import MenuView from './Menu';
 import Breadcrumb from './Breadcrumb';
+import styles from './layout.module.scss'
+import { removeToken } from '@/utils/auth';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -12,6 +14,11 @@ const LayoutView: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const logout = () => {
+    removeToken()
+    location.reload()
+  }
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
@@ -20,8 +27,9 @@ const LayoutView: React.FC = () => {
       </Sider>
 
       <Layout className="site-layout">
-        <Header style={{ paddingLeft: '24px', background: colorBgContainer }} >
+        <Header className={styles['layout-header']} style={{ background: colorBgContainer }} >
           <Breadcrumb />
+          <Button type="link" onClick={logout}>登出</Button>
         </Header>
         <Content style={{ margin: '16px 16px 0', padding: '24px', background: colorBgContainer }}>
           <Outlet />
