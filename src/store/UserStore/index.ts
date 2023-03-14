@@ -1,9 +1,13 @@
+interface StateType {
+  arr: number[]
+}
+
 const UserStore = {
   state: {
     arr: [10, 20, 30]
   },
   actions: {
-    arrPush(state, payload:any) {
+    arrPush(state:StateType, payload:any) {
       state.arr.push(payload)
     }
   },

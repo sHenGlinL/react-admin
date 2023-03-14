@@ -1,14 +1,17 @@
 // @todo typescript完善
+interface StateType {
+  num: number
+}
 
 const NumStore = {
   state: {
     num: 20
   },
   actions: {
-    add1(state) {
+    add1(state:StateType) {
       state.num ++
     },
-    add2(state, payload:any) {
+    add2(state:StateType, payload:any) {
       state.num += payload
     }
   }

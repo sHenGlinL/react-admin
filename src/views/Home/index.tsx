@@ -18,7 +18,7 @@ function View() {
     dispatch({ type: 'arrPush', payload: 40 })
   }
   const handleAsync = () => {
-    dispatch(UserStore.asyncActions.asyncArrPush)
+    dispatch(UserStore.asyncActions.asyncArrPush as any)
   }
 
   return (
