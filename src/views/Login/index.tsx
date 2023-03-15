@@ -3,8 +3,9 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.scss";
 import { initThreeBackground } from "./background";
-import { setToken } from "@/utils/auth";
 import { useEffect, useRef } from "react";
+import { useAppDispatch } from "@/store";
+import UserStore from "@/store/UserStore"
 
 type UserInfo = {
   userName: string;
@@ -13,9 +14,10 @@ type UserInfo = {
 
 const Login = () => {
   const navigateTo = useNavigate();
-  const handleSubmit = (values: UserInfo) => {
+  const dispatch = useAppDispatch()
+  const handleSubmit = async (values: UserInfo) => {
     if (checkUser(values)) {
-      setToken("666");
+      await dispatch(UserStore.asyncActions.Login as any)
       navigateTo("/");
     }
   };
@@ -43,7 +45,7 @@ const Login = () => {
           >
             <Input
               prefix={<UserOutlined size={13} />}
-              placeholder="请输入用户名"
+              placeholder="请输入用户名 admin"
             />
           </Form.Item>
           <Form.Item
@@ -53,7 +55,7 @@ const Login = () => {
             <Input.Password
               prefix={<LockOutlined size={13} />}
               type="password"
-              placeholder="请输入密码"
+              placeholder="请输入密码 admin"
             />
           </Form.Item>
           <Form.Item>

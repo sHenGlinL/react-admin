@@ -1,23 +1,23 @@
 [
   {
     "name": "菜单1",
-    "path": "/home"
+    "path": "/Home"
   },
   {
     "name": "菜单2",
-    "path": "/about"
+    "path": "/About"
   },
   {
     "name": "菜单3",
-    "path": "page3",
+    "path": "/Page3",
     "children": [
       {
         "name": "菜单3-1",
-        "path": "/page3/page3-1"
+        "path": "/Page3/Page3-1"
       },
       {
         "name":"'菜单3-2",
-        "path": "/page3/2"
+        "path": "/Page3/Page3-2"
       }
     ]
   }

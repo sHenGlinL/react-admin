@@ -4,7 +4,8 @@ import { Outlet } from 'react-router-dom';
 import MenuView from './Menu';
 import Breadcrumb from './Breadcrumb';
 import styles from './layout.module.scss'
-import { removeToken } from '@/utils/auth';
+import { useAppDispatch } from '@/store';
+import UserStore from "@/store/UserStore"
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -14,8 +15,9 @@ const LayoutView: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const logout = () => {
-    removeToken()
+  const dispatch = useAppDispatch()
+  const logout = async () => {
+    await dispatch(UserStore.asyncActions.Logout as any)
     location.reload()
   }
 

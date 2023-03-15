@@ -1,19 +1,24 @@
-const AUTH_KEY = 'react-admin-token'
+const AUTH_KEY = 'react-admin-userinfo'
+
+function getUserInfo() {
+  return JSON.parse(localStorage.getItem(AUTH_KEY) as string)
+}
+
+function setUserInfo(userinfo: any) {
+  localStorage.setItem(AUTH_KEY, JSON.stringify(userinfo))
+}
+
+function removeUserInfo() {
+  localStorage.removeItem(AUTH_KEY)
+}
 
 function getToken() {
-  return localStorage.getItem(AUTH_KEY)
-}
-
-function setToken(token:string) {
-  localStorage.setItem(AUTH_KEY, token)
-}
-
-function removeToken() {
-  localStorage.removeItem(AUTH_KEY)
+  return getUserInfo()?.token
 }
 
 export {
   getToken,
-  setToken,
-  removeToken
+  getUserInfo,
+  setUserInfo,
+  removeUserInfo
 }
