@@ -2,45 +2,27 @@ import React, { useState } from "react";
 import { Menu } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { MenuProps } from "antd";
-import {
-  DesktopOutlined,
-  FileOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { DesktopOutlined } from "@ant-design/icons";
+import { useAppSelector } from "@/store";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-const items: MenuItem[] = [
-  {
-    label: '菜单1',
-    icon: <DesktopOutlined />,
-    key: '/home'
-  },
-  {
-    label: '菜单2',
-    icon: <FileOutlined />,
-    key: '/about'
-  },
-  {
-    label: '菜单3',
-    icon: <UserOutlined />,
-    key: 'page3',
-    children: [
-      {
-        label: '菜单3-1',
-        icon: <DesktopOutlined />,
-        key: '/page3/page3-1'
-      },
-      {
-        label: '菜单3-2',
-        icon: <FileOutlined />,
-        key: '/page3/2'
-      }
-    ]
-  }
-]
+// 根据路由数据生成菜单树
+const GenerateMenu = (menu:any[]):MenuItem[] => {
+  return menu.map(item => {
+    const menuItem = {
+      label: item.name,
+      key: item.path,
+      icon: <DesktopOutlined />,
+    }
+    return item.children?.length > 0 ? { ...menuItem, children: GenerateMenu(item.children) } : menuItem
+  })
+}
 
-const MenuView: React.FC = () => {  
+const MenuView: React.FC = () => {
+  // 获取menu菜单  
+  const { menu } = useAppSelector(state => state.UserReducer)
+  const items = GenerateMenu(menu)
   // 获取当前路由
   const currentRoute = useLocation()
   

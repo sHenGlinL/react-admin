@@ -22,7 +22,7 @@
 // export default baseRouter;
 
 /** 2. hooks的写法 **/
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useState, useMemo } from 'react'
 import { useRoutes, Navigate, useLocation, useNavigate } from "react-router-dom";
 import type { RouteObject } from 'react-router-dom'
 import { getToken, getUserInfo } from '@/utils/auth';
@@ -68,7 +68,7 @@ const getPermissionRoutes = (menu:any[]):any => {
   })
 }
 // 生成最终菜单数据
-const getGenerateRoutes = (menu:any[]) => {
+export const GenerateRoutes = (menu:any[]) => {
   const permissionRoutes = getPermissionRoutes(menu)
 
   const routes:RouteObject[] = [
@@ -126,18 +126,11 @@ const Redirect = ({ to }: { to: string }) => {
 // 路由前置守卫
 const whiteList = ['/login']
 export const RouterBeforeEach = () => {
+  console.log('------渲染开始');
   const dispatch = useAppDispatch()
   const [permissionRoute, setPermissionRoute] = useState<any[]>(routes)
-  const { menu } = useAppSelector(state => state.UserReducer)  
-  // useEffect(() => {
-  //   // 获取菜单
-  //   getUserMenu().then(response => {
-  //     const routes = getGenerateRoutes(response)
-  //     setPermissionRoute(routes)
-  //   })
-  // }, [])
+  const { menu } = useAppSelector(state => state.UserReducer)
   console.log('permissionRoute', permissionRoute);
-  const RoutesElement = useRoutes(permissionRoute)
 
   const { pathname } = useLocation()
   const token = getToken()
@@ -145,15 +138,17 @@ export const RouterBeforeEach = () => {
   if (!token && !whiteList.includes(pathname)) {
     return <Redirect to='/login' />
   }
-  
   if (token) {
     // 获取用户信息菜单等操作    
-    if (menu.length < 1) {
+    if (menu.length === 0) {
+      // 设置菜单数据
       const menu = getUserInfo().menu
-      const routes = getGenerateRoutes(menu)
-      dispatch({ type: 'SET_MENU', payload: routes })      
+      dispatch({ type: 'SET_MENU', payload: menu })
+      console.log('dispatch触发');
+      // 生成路由
+      const routes = GenerateRoutes(menu)
       setPermissionRoute(routes)
-      return RoutesElement
+      console.log('setState触发');
     }
 
     if (pathname === '/login') {
@@ -161,5 +156,7 @@ export const RouterBeforeEach = () => {
     }
   }
 
+  const RoutesElement = useRoutes(permissionRoute)
+  console.log('---------渲染结束');
   return RoutesElement
 }

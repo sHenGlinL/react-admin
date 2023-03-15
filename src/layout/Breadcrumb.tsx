@@ -29,11 +29,9 @@ const isSameLastPath = (path:string, pathSnippet:string) => {
 
 const BreadcrumbView = () => {
   const { menu } = useAppSelector(state => state.UserReducer)
-  const layoutChildren = menu.find((item:menuItem) => item.path === '/' && item.children).children // 找到layout
-
   const location = useLocation()
   const pathSnippets = location.pathname.split('/').filter((i) => i);
-  const nameSnippets = mateBreadcrumbName(layoutChildren, pathSnippets)  
+  const nameSnippets = mateBreadcrumbName(menu, pathSnippets)  
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
     return {
