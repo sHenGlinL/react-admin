@@ -22,21 +22,19 @@
 // export default baseRouter;
 
 /** 2. hooks的写法 **/
-import { Suspense, lazy, useEffect, useState, useMemo } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { useRoutes, Navigate, useLocation, useNavigate } from "react-router-dom";
 import type { RouteObject } from 'react-router-dom'
 import { getToken, getUserInfo } from '@/utils/auth';
-import { getUserMenu } from '@/api/system'
-import { useAppDispatch, useAppSelector } from '@/store';
-import UserStore from "@/store/UserStore"
+import { useAppDispatch } from '@/store';
 
 const Layout = lazy(() => import("@/layout"))
 const Login = lazy(() => import("@/views/Login"))
 const NotFound = lazy(() => import("@/views/NotFound"))
 
-const modelus = import.meta.glob('@/views/**/*.tsx')
+const modules = import.meta.glob('@/views/**/*.tsx')
 const lazyLoad = (modulePath: string) => {  
-  const Module = lazy(modelus[`../views${[modulePath]}/index.tsx`] as any);
+  const Module = lazy(modules[`../views${[modulePath]}/index.tsx`] as any);
   
   return (
     <Suspense fallback={ <div>loading</div> }>
@@ -81,14 +79,7 @@ export const GenerateRoutes = (menu:any[]) => {
       element: <Layout />,
       children: permissionRoutes
     },
-    {
-      path: '/login',
-      element: <Login />
-    },
-    {
-      path: '/404',
-      element: withLoadingComponent(<NotFound />)
-    },
+    ...defaultRoutes,
     {
       path: '*',
       element: <Navigate to="/404"/> // 回到首页或者404
@@ -97,7 +88,7 @@ export const GenerateRoutes = (menu:any[]) => {
 
   return routes
 }
-const routes:RouteObject[] = [
+const defaultRoutes:RouteObject[] = [
   {
     path: '/login',
     element: <Login />
@@ -105,14 +96,8 @@ const routes:RouteObject[] = [
   {
     path: '/404',
     element: withLoadingComponent(<NotFound />)
-  },
-  {
-    path: '*',
-    element: <Navigate to="/404"/> // 回到首页或者404
   }
 ]
-// 全局路由组件
-// const RoutesElement = () => useRoutes(routes)
 
 // 路由跳转组件
 const Redirect = ({ to }: { to: string }) => {
@@ -126,37 +111,30 @@ const Redirect = ({ to }: { to: string }) => {
 // 路由前置守卫
 const whiteList = ['/login']
 export const RouterBeforeEach = () => {
-  console.log('------渲染开始');
   const dispatch = useAppDispatch()
-  const [permissionRoute, setPermissionRoute] = useState<any[]>(routes)
-  const { menu } = useAppSelector(state => state.UserReducer)
-  console.log('permissionRoute', permissionRoute);
+  const [permissionRoute, setPermissionRoute] = useState(defaultRoutes)
 
   const { pathname } = useLocation()
   const token = getToken()
 
-  if (!token && !whiteList.includes(pathname)) {
-    return <Redirect to='/login' />
-  }
-  if (token) {
-    // 获取用户信息菜单等操作    
-    if (menu.length === 0) {
+  useEffect(() => {    
+    if (token) {
       // 设置菜单数据
       const menu = getUserInfo().menu
       dispatch({ type: 'SET_MENU', payload: menu })
-      console.log('dispatch触发');
       // 生成路由
       const routes = GenerateRoutes(menu)
       setPermissionRoute(routes)
-      console.log('setState触发');
     }
+  }, [token])
 
-    if (pathname === '/login') {
-      return <Redirect to='/home' />
-    }
+  if (!token && !whiteList.includes(pathname)) {
+    return <Redirect to='/login' />
   }
-
+  if (token && pathname === '/login') {
+    return <Redirect to='/home' />
+  }
+  
   const RoutesElement = useRoutes(permissionRoute)
-  console.log('---------渲染结束');
   return RoutesElement
 }
