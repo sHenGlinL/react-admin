@@ -33,8 +33,11 @@ const Login = lazy(() => import("@/views/Login"))
 const NotFound = lazy(() => import("@/views/NotFound"))
 
 const modules = import.meta.glob('@/views/**/*.tsx')
-const lazyLoad = (modulePath: string) => {  
-  const Module = lazy(modules[`../views${[modulePath]}/index.tsx`] as any);
+const lazyLoad = (modulePath: string) => {
+  // 路径变成大写
+  const upperCasePath = modulePath.split('/').map(path => path.charAt(0).toUpperCase() + path.slice(1)).join('/')
+
+  const Module = lazy(modules[`../views${[upperCasePath]}/index.tsx`] as any);
   
   return (
     <Suspense fallback={ <div>loading</div> }>
