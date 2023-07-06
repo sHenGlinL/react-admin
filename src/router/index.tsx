@@ -111,12 +111,13 @@ const Redirect = ({ to }: { to: string }) => {
 // 路由前置守卫
 const whiteList = ['/login']
 export const RouterBeforeEach = () => {
-  const dispatch = useAppDispatch()
-  const [permissionRoute, setPermissionRoute] = useState(defaultRoutes)
-
   const { pathname } = useLocation()
+  const dispatch = useAppDispatch()
+  
+  const [permissionRoute, setPermissionRoute] = useState(defaultRoutes)
+  const RoutesElement = useRoutes(permissionRoute)
+  
   const token = getToken()
-
   useEffect(() => {    
     if (token) {
       // 设置菜单数据
@@ -134,7 +135,6 @@ export const RouterBeforeEach = () => {
   if (token && pathname === '/login') {
     return <Redirect to='/home' />
   }
-  
-  const RoutesElement = useRoutes(permissionRoute)
+
   return RoutesElement
 }

@@ -12,7 +12,8 @@ import store from '@/store'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
   <Provider store={store}>
-    <BrowserRouter basename={import.meta.env.VITE_BASE_NAME}>
+    {/* <BrowserRouter basename={import.meta.env.VITE_BASE_NAME}> */}
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>
