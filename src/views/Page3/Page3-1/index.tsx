@@ -1,4 +1,5 @@
 import { startTransition, useEffect, useState } from "react"
+import type { ChangeEvent } from 'react'
 
 function View() {
   console.log('render');
@@ -23,7 +24,7 @@ function View() {
   }
 
   const [inputValue, setInputValue] = useState('')
-  const onChange = (e) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
     startTransition(() => {
       console.log('startTransition', inputValue);
