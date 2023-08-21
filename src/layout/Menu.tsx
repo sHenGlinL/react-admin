@@ -38,7 +38,8 @@ const MenuView: React.FC = () => {
       if (parentMenuItem && menuItem.key === currentRoute.pathname) {
         return [parentMenuItem.key]
       } else if (menuItem.children) {
-        return findOpenKeys(menuItem.children, menuItem)
+        const curOpenKeys =  findOpenKeys(menuItem.children, menuItem)
+        if (curOpenKeys.length > 0) return curOpenKeys
       }
     }
     return []
